@@ -10,7 +10,6 @@ st.set_page_config(
 )
 
 # Estilização CSS personalizada
-# Mudei o gradiente do .stApp para tons mais escuros (Vinho/Ameixa)
 st.markdown("""
     <style>
     /* Fundo e Fonte */
@@ -38,7 +37,7 @@ st.markdown("""
         margin-top: 20px;
     }
 
-    /* Título - Agora em Branco/Rosa claro para ler no fundo escuro */
+    /* Título - Branco/Rosa claro */
     .main-title {
         color: #ffffff;
         text-align: center;
@@ -58,7 +57,7 @@ st.markdown("""
         position: fixed;
         bottom: -10px;
         color: #ff4b4b;
-        font-size: 20px;
+        font-size: 25px;
         user-select: none;
         z-index: 1000;
         animation: hearts 4s linear infinite;
@@ -125,17 +124,17 @@ if not st.session_state.aceitou:
 
 else:
     # --- SEGUNDA TELA (Após o SIM) ---
-    # Mudando o fundo para um tom mais suave para a mensagem
+    # Mudando o fundo para um tom mais suave
     st.markdown("<style>.stApp { background: linear-gradient(180deg, #fff5f5 0%, #ffe3e3 100%); }</style>", unsafe_allow_html=True)
     
-    st.snow()
-    
+    # Criando os corações animados (Removido o st.snow())
     heart_html = "".join([f'<div class="heart" style="left: {i*10}%; animation-delay: {i*0.5}s;">❤️</div>' for i in range(10)])
     st.markdown(heart_html, unsafe_allow_html=True)
 
     st.markdown("<h2 style='text-align: center; color: #ff4b4b;'>Eu te amo muito! ❤️</h2>", unsafe_allow_html=True)
     
     try:
+        # Tenta carregar a imagem local
         st.image("WhatsApp Image 2026-05-12 at 17.22.11.jpeg", use_container_width=True)
     except:
         st.info("Aqui aparecerá a nossa foto!")
