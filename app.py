@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# Configuração da página - Essencial para Mobile
+# Configuração da página
 st.set_page_config(
     page_title="Para Iara ❤️", 
     page_icon="❤️", 
@@ -17,6 +17,12 @@ st.markdown("""
         background: linear-gradient(180deg, #fff5f5 0%, #ffe3e3 100%);
     }
     
+    /* Ajuste de visibilidade da primeira tela */
+    .main-container {
+        padding-top: 50px;
+        text-align: center;
+    }
+
     /* Caixa de mensagem */
     .message-box {
         background-color: rgba(255, 255, 255, 0.9);
@@ -31,20 +37,29 @@ st.markdown("""
         margin-top: 20px;
     }
 
-    /* Ajuste para o container dos botões no mobile */
-    div[data-testid="column"] {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
     /* Título */
     .main-title {
         color: #ff4b4b;
         text-align: center;
         font-family: 'Comic Sans MS', cursive, sans-serif;
         font-weight: bold;
-        padding: 20px 0;
+        padding: 40px 10px;
+        font-size: 2.5rem;
+    }
+
+    /* Animação de Corações Subindo */
+    @keyframes hearts {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    .heart {
+        position: fixed;
+        bottom: -10px;
+        color: #ff4b4b;
+        font-size: 20px;
+        user-select: none;
+        z-index: 1000;
+        animation: hearts 4s linear infinite;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -53,20 +68,18 @@ if 'aceitou' not in st.session_state:
     st.session_state.aceitou = False
 
 if not st.session_state.aceitou:
+    # Container para melhorar a visualização inicial
+    st.markdown("<div class='main-container'>", unsafe_allow_html=True)
     st.markdown("<h1 class='main-title'>❤️ Iara, você me desculpa? ❤️</h1>", unsafe_allow_html=True)
     
-    # Criando colunas para os botões ficarem lado a lado
     col1, col2 = st.columns(2)
     
     with col1:
-        # Botão SIM oficial do Streamlit (Estilizado automaticamente)
         if st.button("SIM! 😍", use_container_width=True):
             st.session_state.aceitou = True
             st.rerun()
             
     with col2:
-        # Botão NÃO que foge (HTML/JS)
-        # Altura de 300px para dar espaço para a "fuga" no celular
         components.html("""
             <div id="area" style="width: 100%; height: 250px; position: relative; display: flex; justify-content: center; align-items: flex-start;">
                 <button id="no-btn" style="
@@ -91,31 +104,33 @@ if not st.session_state.aceitou:
                 const area = document.getElementById('area');
                 
                 function moveButton() {
-                    // Limita a fuga para dentro da área visível da coluna
                     const maxX = area.clientWidth - btn.clientWidth;
                     const maxY = area.clientHeight - btn.clientHeight;
-                    
                     const newX = Math.random() * maxX;
                     const newY = Math.random() * maxY;
-                    
                     btn.style.left = newX + 'px';
                     btn.style.top = newY + 'px';
                 }
 
                 btn.addEventListener('mouseover', moveButton);
                 btn.addEventListener('touchstart', function(e) {
-                    e.preventDefault(); // Impede o clique no celular
+                    e.preventDefault();
                     moveButton();
                 });
             </script>
         """, height=300)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    # Tela de Sucesso
-    st.balloons()
+    # Efeito de Neve (o mais próximo de corações caindo nativo)
+    st.snow()
+    
+    # Injeção de Corações subindo via HTML
+    heart_html = "".join([f'<div class="heart" style="left: {i*10}%; animation-delay: {i*0.5}s;">❤️</div>' for i in range(10)])
+    st.markdown(heart_html, unsafe_allow_html=True)
+
     st.markdown("<h2 style='text-align: center; color: #ff4b4b;'>Eu te amo muito! ❤️</h2>", unsafe_allow_html=True)
     
-    # Centralização da imagem
     try:
         st.image("WhatsApp Image 2026-05-12 at 17.22.11.jpeg", use_container_width=True)
     except:
@@ -124,7 +139,7 @@ else:
     st.markdown("""
     <div class="message-box">
         <b>Iara, me desculpa de verdade.</b><br><br>
-        Senti que você ficou chateada e, realmente, eu não estava bravo com você. 
+        Senti que você ficou chateada e, realmente, eu não estava bravo com você. <br>
         Sei que não foi o melhor jeito de fazer uma crítica; acabo me frustrando quando as coisas dão errado 
         e desconto em você, que não tem nada a ver com a situação. <br><br>
         Não gosto de te ver triste. Além de sentir o seu desânimo, vi no seu rosto a falta do seu sorriso, 
