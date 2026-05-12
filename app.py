@@ -10,11 +10,12 @@ st.set_page_config(
 )
 
 # Estilização CSS personalizada
+# Mudei o gradiente do .stApp para tons mais escuros (Vinho/Ameixa)
 st.markdown("""
     <style>
     /* Fundo e Fonte */
     .stApp {
-        background: linear-gradient(180deg, #fff5f5 0%, #ffe3e3 100%);
+        background: linear-gradient(180deg, #4a0e0e 0%, #801a1a 100%);
     }
     
     /* Ajuste de visibilidade da primeira tela */
@@ -23,28 +24,29 @@ st.markdown("""
         text-align: center;
     }
 
-    /* Caixa de mensagem */
+    /* Caixa de mensagem (Aparece na segunda tela) */
     .message-box {
-        background-color: rgba(255, 255, 255, 0.9);
+        background-color: rgba(255, 255, 255, 0.95);
         padding: 25px;
         border-radius: 20px;
         border: 2px solid #ff4b4b;
-        box-shadow: 0px 10px 20px rgba(0,0,0,0.05);
+        box-shadow: 0px 10px 20px rgba(0,0,0,0.3);
         text-align: center;
         font-size: 1.1rem;
         line-height: 1.6;
-        color: #444;
+        color: #333;
         margin-top: 20px;
     }
 
-    /* Título */
+    /* Título - Agora em Branco/Rosa claro para ler no fundo escuro */
     .main-title {
-        color: #ff4b4b;
+        color: #ffffff;
         text-align: center;
         font-family: 'Comic Sans MS', cursive, sans-serif;
         font-weight: bold;
         padding: 40px 10px;
         font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     /* Animação de Corações Subindo */
@@ -68,7 +70,7 @@ if 'aceitou' not in st.session_state:
     st.session_state.aceitou = False
 
 if not st.session_state.aceitou:
-    # Container para melhorar a visualização inicial
+    # --- PRIMEIRA TELA (Fundo Escuro) ---
     st.markdown("<div class='main-container'>", unsafe_allow_html=True)
     st.markdown("<h1 class='main-title'>❤️ Iara, você me desculpa? ❤️</h1>", unsafe_allow_html=True)
     
@@ -94,7 +96,7 @@ if not st.session_state.aceitou:
                     cursor: pointer;
                     font-weight: bold; 
                     font-size: 16px;
-                    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+                    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
                     transition: 0.2s;
                     touch-action: none;
                 ">Não</button>
@@ -122,10 +124,12 @@ if not st.session_state.aceitou:
     st.markdown("</div>", unsafe_allow_html=True)
 
 else:
-    # Efeito de Neve (o mais próximo de corações caindo nativo)
+    # --- SEGUNDA TELA (Após o SIM) ---
+    # Mudando o fundo para um tom mais suave para a mensagem
+    st.markdown("<style>.stApp { background: linear-gradient(180deg, #fff5f5 0%, #ffe3e3 100%); }</style>", unsafe_allow_html=True)
+    
     st.snow()
     
-    # Injeção de Corações subindo via HTML
     heart_html = "".join([f'<div class="heart" style="left: {i*10}%; animation-delay: {i*0.5}s;">❤️</div>' for i in range(10)])
     st.markdown(heart_html, unsafe_allow_html=True)
 
@@ -138,7 +142,7 @@ else:
 
     st.markdown("""
     <div class="message-box">
-        <b>Iara, me desculpa de verdade.</b><br><br>
+        <b style="color: #ff4b4b; font-size: 1.3rem;">Iara, me desculpa de verdade.</b><br><br>
         Senti que você ficou chateada e, realmente, eu não estava bravo com você. <br>
         Sei que não foi o melhor jeito de fazer uma crítica; acabo me frustrando quando as coisas dão errado 
         e desconto em você, que não tem nada a ver com a situação. <br><br>
